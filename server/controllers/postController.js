@@ -1,3 +1,4 @@
+const Notification = require("../models/Notification");
 const Post = require("../models/Post");
 
 // Create a Post
@@ -37,17 +38,27 @@ const likePost = async(req, res) => {
     try {
         const post = await Post.findById(req.params.id);
 
-        const aldreadyLiked = post.likes.find(
+        const alreadyLiked = post.likes.find(
             like => like.user.toString() === req.user.id
         );
 
-        if(aldreadyLiked) {
-            return res.status(400).json({ message: "Post aldready liked" });
+        if(alreadyLiked) {
+            return res.status(400).json({ message: "Post already liked" });
         }
 
         post.likes.unshift({ user: req.user.id  });
 
         await post.save();
+
+        // Create notification for post owner
+        if (post.user.toString() != req.user.id) {
+            await Notification.create({
+                recipient: post.user,
+                sender: req.user.id,
+                type: like,
+                post: post._id
+            });
+        }
 
         res.json(post.likes);
 

@@ -33,6 +33,13 @@ const followUser = async(req, res) => {
         await currentUser.save();
         await targetUser.save();
 
+        // Notification for Following User
+        await Notification.create({
+            recipient: targetUserId,
+            sender: currentUserId,
+            type: "follow"
+        });
+
         res.status(200).json({
             message: "User followed successfully"
         });
