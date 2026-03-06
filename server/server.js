@@ -5,6 +5,7 @@ const connectDB = require("./config/db");
 const authRoutes = require("./routes/authRoutes");
 const profileRoutes = require("./routes/profileRoutes");
 const postRoutes = require("./routes/postRoutes");
+const followRoutes = require("./routes/followRoutes");
 
 require("dotenv").config();
 
@@ -18,6 +19,7 @@ app.use(express.json());
 app.use("/api/auth", authRoutes);
 app.use("/api/profile", profileRoutes);
 app.use("/api/posts", postRoutes);
+app.use("/api/users", followRoutes);
 
 app.get("/", (req, res) => {
     res.send("DevConnectttt Babyyy...");
