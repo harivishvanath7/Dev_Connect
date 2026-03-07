@@ -26,19 +26,38 @@ const io = new Server(server, {
     } 
 });
 
+const onLineUsers = {};
+
 // Socket connection
 io.on("connection", (socket) => {
     console.log("User connected:", socket.id);
 
-    // Listen for message event
+    // Register User when they connect
+    socket.on("registerUser", (userId) => {
+        onLineUsers[userId] = socket.id;
+
+        console.log("Online Users: ", onlineUsers);
+    })
+
+    // Listen for message event and send message to specific user
     socket.on("sendMessage", (data) => {
-        io.emit("receiveMessage", data);
+        const receiverSocket = onlineUsers[data.reciever];
+
+        if(receiverSocket) {
+            io.to(receiverSocket).emit("receiveMessage", data);
+        }
     });
 
+    // Remove user when they disconnect
     socket.on("disconnect", () => {
+
+        for (let userId in onLineUsers) {
+            if (onlineUsers[userId] === socket.id) {
+                delete onlineUsers[userId];
+            }
+        }
         console.log("User disconnected:", socket.id);
     });
-
 });
 
 app.use(cors());
