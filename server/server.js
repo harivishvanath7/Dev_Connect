@@ -11,6 +11,7 @@ const postRoutes = require("./routes/postRoutes");
 const followRoutes = require("./routes/followRoutes");
 const notificationRoutes = require("./routes/notificationRoutes");
 const jobRoutes = require("./routes/jobRoutes");
+const githubRoutes = require("./routes/githubRoutes");
 
 require("dotenv").config();
 
@@ -70,6 +71,7 @@ app.use("/api/posts", postRoutes);
 app.use("/api/users", followRoutes);
 app.use("/api/notifications", notificationRoutes);
 app.use("/api/jobs", jobRoutes);
+app.use("/api/github", githubRoutes);
 
 app.get("/", (req, res) => {
     res.send("DevConnectttt Babyyy...");
