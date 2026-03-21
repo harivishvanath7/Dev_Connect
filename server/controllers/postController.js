@@ -25,6 +25,7 @@ const getPosts = async(req, res) => {
     try {
         const posts = await Post.find()
             .populate("user", ["name"])
+            .populate("comments.user", ["name"])
             .sort({ createdAt: -1 });
         
             res.json(posts);
@@ -55,7 +56,7 @@ const likePost = async(req, res) => {
             await Notification.create({
                 recipient: post.user,
                 sender: req.user.id,
-                type: like,
+                type: "like",
                 post: post._id
             });
         }
