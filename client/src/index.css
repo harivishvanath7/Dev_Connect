@@ -1,1 +1,39 @@
 @import "tailwindcss";
+
+/* Theme Variables (your design system) */
+:root {
+  --color-primary: #2F6B3F;
+  --color-secondary: #7FB77E;
+  --color-accent: #F7C85C;
+  --color-soft: #FFF6C0;
+
+  --color-background: #f9fafb;
+  --color-text: #1f2937;
+
+  --font-heading: "Libre Baskerville", serif;
+  --font-body: "Cormorant Garamond", serif;
+}
+
+/* Global Styles */
+body {
+  font-family: var(--font-body);
+  background-color: var(--color-background);
+  color: var(--color-text);
+}
+
+/* Headings */
+h1, h2, h3, h4, h5, h6 {
+  font-family: var(--font-heading);
+}
+
+/* Links */
+a {
+  color: var(--color-primary);
+  text-decoration: none;
+}
+
+/* Buttons */
+button {
+  font-family: var(--font-heading);
+  cursor: pointer;
+}
