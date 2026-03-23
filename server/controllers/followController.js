@@ -1,3 +1,4 @@
+const Notification = require("../models/Notification");
 const User = require("../models/User");
 
 const followUser = async(req, res) => {
@@ -51,7 +52,7 @@ const followUser = async(req, res) => {
 const unfollowUser = async (req, res) => {
     try {
         const currentUserId = req.user.id;
-        const targetUserId = req.user.id;
+        const targetUserId = req.[arams].id;
 
         const currentUser = await User.findById(currentUserId);
         const targetUser = await User.findById(targetUserId);
@@ -72,6 +73,10 @@ const unfollowUser = async (req, res) => {
             currentUserId,
             { $pull: { following: targetUserId } }
         );
+
+        await User.findByIdAndUpdate(targetUserId, {
+            $pull: { followers: currentUserId }
+        });
 
         res.status(200).json({
             message: "User unfollowed successfully."
