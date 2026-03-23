@@ -10,6 +10,7 @@ const MainLayout = ({ children }) => {
         <div className="flex gap-4">
           <Link to="/">Feed</Link>
           <Link to="/profile">Profile</Link>
+          <Link to="/developers">Developers</Link>
         </div>
       </nav>
      {/* CONTENT */}
