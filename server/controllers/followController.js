@@ -52,7 +52,7 @@ const followUser = async(req, res) => {
 const unfollowUser = async (req, res) => {
     try {
         const currentUserId = req.user.id;
-        const targetUserId = req.[arams].id;
+        const targetUserId = req.params.id;
 
         const currentUser = await User.findById(currentUserId);
         const targetUser = await User.findById(targetUserId);
