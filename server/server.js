@@ -28,7 +28,7 @@ const io = new Server(server, {
     } 
 });
 
-const onLineUsers = {};
+const onlineUsers = {};
 
 // Socket connection
 io.on("connection", (socket) => {
