@@ -88,4 +88,28 @@ const addComment = async (req, res) => {
   }
 };
 
-module.exports = { createPost, getPosts, likePost, addComment };
+const getFeed = async (req, res) => {
+  try {
+    const userId = req.user.id;
+
+    // Get current user
+    const currentUser = await User.findById(userId);
+
+    // Include own posts also
+    const followingIds = [...currentUser.following, userId];
+
+    // Get posts from following users
+    const posts = await Post.find({
+      author: { $in: followingIds },
+    })
+      .populate("author", "username avatar")
+      .sort({ createdAt: -1 });
+
+    res.status(200).json(posts);
+  } catch (error) {
+    console.log("FEED ERROR:", error);
+    res.status(500).json({ error: error.message });
+  }
+};
+
+module.exports = { createPost, getPosts, likePost, addComment, getFeed };
