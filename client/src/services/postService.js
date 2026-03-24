@@ -20,4 +20,9 @@ const addComment = async (id, text) => {
   return res.data;
 };
 
-export { createPost, getPosts, likePost, addComment };
+const getFeed = async () => {
+  const res = await API.get("/api/posts/feed");
+  return res.data;
+}
+
+export { createPost, getPosts, likePost, addComment, getFeed };
