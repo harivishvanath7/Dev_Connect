@@ -1,17 +1,18 @@
 import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import { getProfileByUser } from "../../services/profileService";
+import FollowButton from "../../components/profile/FollowButton";
 
 const ViewProfile = () => {
   const { userId } = useParams();
   const [profile, setProfile] = useState(null);
 
   useEffect(() => {
-    const fetch = async () => {
+    const fetchProfile = async () => {
         const data = await getProfileByUser(userId);
         setProfile(data);
     };
-    fetch();
+    fetchProfile();
   }, [userId]);
 
   if(!profile) return <p>Loading..</p>
@@ -21,6 +22,8 @@ const ViewProfile = () => {
       <h2 className="text-xl text-(--color-primary)">
         {profile.user?.name}
       </h2>
+
+      <FollowButton targetUserId={profile.user._id}/>
 
       <p>{profile.bio}</p>
       <p><strong>Skills:</strong> {profile.skills}</p>
