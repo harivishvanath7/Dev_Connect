@@ -4,6 +4,7 @@ import {
   getProfileByUser,
   updateProfile,
 } from "../../services/profileService";
+import FollowList from "../../components/profile/FollowList";
 
 const Profile = () => {
   const [form, setForm] = useState({
@@ -69,6 +70,10 @@ const Profile = () => {
         <p><strong>Skills:</strong> {profile.skills}</p>
         <p><strong>Company:</strong> {profile.company}</p>
         <p><strong>Location:</strong> {profile.location}</p>
+
+        {profile?.user?._id && (
+          <FollowList userId={profile.user._id} />
+        )}
 
         <button
           onClick={() => {
