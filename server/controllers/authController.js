@@ -6,31 +6,56 @@ const jwt = require("jsonwebtoken");
 
 const registerUser = async (req, res) => {
   try {
-    const { name, email, password } = req.body;
+    const { name, username, email, password } = req.body;
 
-    const existingUser = await User.findOne({ email });
+    // Check manually (better UX)
+    const existingUser = await User.findOne({
+      $or: [{ email }, { username }],
+    });
 
     if (existingUser) {
-      return res.status(400).json({ message: "User Already Exists" });
+      if (existingUser.email === email) {
+        return res.status(400).json({
+          message: "Email already registered",
+        });
+      }
+
+      if (existingUser.username === username) {
+        return res.status(400).json({
+          message: "Username already taken",
+        });
+      }
     }
 
-    // Password Hashing
+    // Hash password
     const hashedPassword = await bcrypt.hash(password, 10);
 
-    const user = new User({
+    // Create user
+    const user = await User.create({
       name,
+      username,
       email,
       password: hashedPassword,
     });
 
-    await user.save();
-
-    res.status(201).json({
+    return res.status(201).json({
       message: "User registered successfully",
       user,
     });
+
   } catch (error) {
-    res.status(500).json({ message: error.message });
+    console.log("REGISTER ERROR:", error);
+
+    // Handle duplicate fallback
+    if (error.code === 11000) {
+      return res.status(400).json({
+        message: "Username or Email already exists",
+      });
+    }
+
+    return res.status(500).json({
+      message: error.message,
+    });
   }
 };
 
@@ -61,7 +86,7 @@ const loginUser = async (req, res) => {
       user: {
         id: user._id,
         name: user.name,
-        email: user.email
+        email: user.email,
       },
     });
   } catch (error) {
