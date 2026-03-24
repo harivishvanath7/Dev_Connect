@@ -5,6 +5,7 @@ import { useNavigate } from "react-router-dom";
 function Register() {
   const [form, setForm] = useState({
     name: "",
+    username: "",
     email: "",
     password: "",
   });
@@ -40,6 +41,13 @@ function Register() {
         <input
           name="name"
           placeholder="Name"
+          onChange={handleChange}
+          className="w-full mb-3 p-2 border rounded focus:outline-none focus:ring-2 focus:ring-(--color-secondary)"
+        />
+
+        <input
+          name="username"
+          placeholder="Username (unique)"
           onChange={handleChange}
           className="w-full mb-3 p-2 border rounded focus:outline-none focus:ring-2 focus:ring-(--color-secondary)"
         />
