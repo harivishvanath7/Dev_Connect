@@ -25,7 +25,7 @@ const Profile = () => {
 
   const fetchProfile = async () => {
     if (!user?.user?.id) return;
-    
+
     try {
       const data = await getProfileByUser(user?.user?.id);
       setProfile(data);
@@ -64,16 +64,32 @@ const Profile = () => {
   if (profile && !isEditing) {
     return (
       <div className="bg-white p-6 rounded shadow">
-        <h2 className="text-xl text-(--color-primary)">{profile.user?.name}</h2>
+        <div className="flex items-center gap-4 mb-4">
+          <img
+            src={profile.user?.avatar || "https://i.pravatar.cc/150"}
+            className="w-16 h-16 rounded-full"
+          />
+
+          <div>
+            <h2 className="text-xl text-(--color-primary)">
+              {profile.user?.username}
+            </h2>
+            <p className="text-gray-500">{profile.user?.name}</p>
+          </div>
+        </div>
 
         <p>{profile.bio}</p>
-        <p><strong>Skills:</strong> {profile.skills}</p>
-        <p><strong>Company:</strong> {profile.company}</p>
-        <p><strong>Location:</strong> {profile.location}</p>
+        <p>
+          <strong>Skills:</strong> {profile.skills}
+        </p>
+        <p>
+          <strong>Company:</strong> {profile.company}
+        </p>
+        <p>
+          <strong>Location:</strong> {profile.location}
+        </p>
 
-        {profile?.user?._id && (
-          <FollowList userId={profile.user._id} />
-        )}
+        {profile?.user?._id && <FollowList userId={profile.user._id} />}
 
         <button
           onClick={() => {
