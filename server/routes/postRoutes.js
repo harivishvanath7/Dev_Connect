@@ -3,7 +3,7 @@ const router = express.Router();
 
 const authMiddleware = require("../middleware/authMiddleware");
 
-const { createPost, getPosts, likePost, addComment } = require("../controllers/postController");
+const { createPost, getPosts, likePost, addComment, getFeed } = require("../controllers/postController");
 
 
 // Protected Routes
@@ -12,6 +12,8 @@ router.post("/", authMiddleware, createPost);
 router.post("/like/:id", authMiddleware, likePost);
 router.post("/comment/:id", authMiddleware, addComment);
 
+// Get Feed
+router.get("/feed", authMiddleware, getFeed);
 
 module.exports = router;
 
